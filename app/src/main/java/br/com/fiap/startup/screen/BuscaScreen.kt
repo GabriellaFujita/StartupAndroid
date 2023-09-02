@@ -37,11 +37,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.com.fiap.startup.database.repository.PrestadorRepository
+import androidx.navigation.compose.rememberNavController
+
 
 //Busca prestador por categoria
 @Composable
-fun BuscaScreen() {
+fun BuscaScreen(navController: NavController) {
 
     var categoria = remember {
         mutableStateOf("")
@@ -50,7 +53,7 @@ fun BuscaScreen() {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
-                onClick = {/* VAI PARA LOGIN SCREEN */ },
+                onClick = { navController.navigate("login") },
                 modifier = Modifier.padding(8.dp),
                 shape = RectangleShape
             ) {
@@ -60,7 +63,7 @@ fun BuscaScreen() {
                 )
             }
             Button(
-                onClick = {/* VAI PARA CADASTRO SCREEN */ },
+                onClick = { navController.navigate("cadastro") },
                 modifier = Modifier.padding(8.dp),
                 shape = RectangleShape
             ) {
@@ -76,7 +79,7 @@ fun BuscaScreen() {
                 categoria.value = it
             }
         )
-        BuscaList()
+        BuscaList(navController = navController)
     }
 }
 
@@ -130,7 +133,7 @@ fun BuscaForm(
 }
 
 @Composable
-fun BuscaList() {
+fun BuscaList(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -138,14 +141,14 @@ fun BuscaList() {
             .verticalScroll(rememberScrollState())
     ) {
         for (i in 0..10) {
-            BuscaCard()
+            BuscaCard(navController = navController)
             Spacer(modifier = Modifier.height(4.dp))
         }
     }
 }
 
 @Composable
-fun BuscaCard() {
+fun BuscaCard(navController: NavController) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -176,7 +179,7 @@ fun BuscaCard() {
                     fontWeight = FontWeight.Bold
                 )
             }
-            IconButton(onClick = { /* VAI PARA PRESTADOR SCREEN */ }) {
+            IconButton(onClick = { navController.navigate("prestador") }) {
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = ""
@@ -188,6 +191,7 @@ fun BuscaCard() {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun BuscaScreenPreview(){
-    BuscaScreen()
+fun BuscaScreenPreview() {
+    val navController = rememberNavController()
+    BuscaScreen(navController = navController)
 }

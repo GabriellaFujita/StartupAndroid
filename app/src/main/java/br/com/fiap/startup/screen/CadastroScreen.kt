@@ -13,11 +13,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,10 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.fiap.startup.database.repository.PrestadorRepository
 import br.com.fiap.startup.model.Prestador
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+
 
 //Cadastrar Prestador
 @Composable
-fun CadastroScreen() {
+fun CadastroScreen(navController: NavController) {
 
     var nomeState = remember {
         mutableStateOf("")
@@ -71,7 +72,7 @@ fun CadastroScreen() {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
-                onClick = {/* VAI PARA LOGIN SCREEN */ },
+                onClick = { navController.navigate("login") },
                 modifier = Modifier.padding(8.dp),
                 shape = RectangleShape
             ) {
@@ -81,7 +82,7 @@ fun CadastroScreen() {
                 )
             }
             Button(
-                onClick = {/* VAI PARA BUSCA SCREEN */ },
+                onClick = { navController.navigate("busca") },
                 modifier = Modifier.padding(8.dp),
                 shape = RectangleShape
             ) {
@@ -313,5 +314,6 @@ fun ContatoCard() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CadastroScreenPreview(){
-    CadastroScreen()
+    val navController = rememberNavController()
+    CadastroScreen(navController = navController)
 }

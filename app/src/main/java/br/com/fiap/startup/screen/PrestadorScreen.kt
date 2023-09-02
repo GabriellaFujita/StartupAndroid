@@ -23,13 +23,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun PrestadorScreen() {
+fun PrestadorScreen(navController: NavController) {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
-                onClick = {/* VAI PARA LOGIN SCREEN */ },
+                onClick = { navController.navigate("login") },
                 modifier = Modifier.padding(8.dp),
                 shape = RectangleShape
             ) {
@@ -39,7 +40,7 @@ fun PrestadorScreen() {
                 )
             }
             Button(
-                onClick = {/* VAI PARA BUSCA SCREEN */ },
+                onClick = { navController.navigate("busca") },
                 modifier = Modifier.padding(8.dp),
                 shape = RectangleShape
             ) {
@@ -49,7 +50,7 @@ fun PrestadorScreen() {
                 )
             }
             Button(
-                onClick = {/* VAI PARA CADASTRO SCREEN */ },
+                onClick = { navController.navigate("cadastro") },
                 modifier = Modifier.padding(8.dp),
                 shape = RectangleShape
             ) {
@@ -118,5 +119,6 @@ fun PrestadorScreen() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PrestadorScreenPreview(){
-    PrestadorScreen()
+    val navController = rememberNavController()
+    PrestadorScreen(navController = navController)
 }

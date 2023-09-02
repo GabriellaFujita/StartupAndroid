@@ -15,6 +15,10 @@ import br.com.fiap.startup.screen.CadastroScreen
 import br.com.fiap.startup.screen.LoginScreen
 import br.com.fiap.startup.screen.PrestadorScreen
 import br.com.fiap.startup.ui.theme.StartUpTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,15 +29,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    val navController = rememberNavController()
-//                    NavHost(navController = navController, startDestination = "prestador"){
-//                        composable(route = "login") { LoginScreen(navController) }
-//                        composable(route = "busca") { BuscaScreen(navController) }
-//                        composable(route = "prestador") { PrestadorScreen(navController) }
-//                        composable(route = "cadastro") { CadastroScreen(navController) }
-//                  }
-                    Column {
-                        BuscaScreen()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "login") {
+                        composable(route = "login") { LoginScreen(navController) }
+                        composable(route = "busca") { BuscaScreen(navController) }
+                        composable(route = "prestador") { PrestadorScreen(navController) }
+                        composable(route = "cadastro") { CadastroScreen(navController) }
                     }
                 }
             }
@@ -44,6 +45,6 @@ class MainActivity : ComponentActivity() {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun BuscaScreenPreview() {
-    BuscaScreen()
+    val navController = rememberNavController()
+    BuscaScreen(navController = navController)
 }
-
