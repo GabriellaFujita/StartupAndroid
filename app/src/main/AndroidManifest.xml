@@ -12,11 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StartUp"
         tools:targetApi="31">
-        <activity
-            android:name=".FormLogin"
-            android:exported="false"
-            android:label="@string/title_activity_form_login"
-            android:theme="@style/Theme.StartUp" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
