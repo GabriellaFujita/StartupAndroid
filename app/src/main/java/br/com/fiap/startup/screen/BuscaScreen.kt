@@ -58,7 +58,7 @@ fun BuscaScreen(navController: NavController) {
                 shape = RectangleShape
             ) {
                 Text(
-                    text = "LOGIN",
+                    text = "SAIR",
                     modifier = Modifier.padding(8.dp)
                 )
             }
