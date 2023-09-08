@@ -18,15 +18,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import br.com.fiap.startup.database.repository.PrestadorRepository
+import br.com.fiap.startup.model.Prestador
 
 @Composable
-fun PrestadorScreen(navController: NavController) {
+fun PrestadorScreen(navController: NavController, id : String) {
+    val context = LocalContext.current
+    val prestadorRepository = PrestadorRepository(context)
+    val prestador = prestadorRepository.buscarPrestadorPeloId(id.toLong())
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
@@ -75,50 +81,44 @@ fun PrestadorScreen(navController: NavController) {
                         .weight(2f)
                 ) {
                     Text(
-                        text = "Nome do Prestador",
+                        text = prestador.nome,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Categoria",
+                        text = prestador.categoria,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Serviços",
+                        text = prestador.servicos,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Endereço",
+                        text = prestador.endereco,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Email",
+                        text = prestador.email,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Telefone",
+                        text = prestador.telefone,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
-                    )
-                }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = ""
                     )
                 }
             }
         }
     }
 }
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PrestadorScreenPreview(){
     val navController = rememberNavController()
-    PrestadorScreen(navController = navController)
+    val id : Long = 0
+    PrestadorScreen(navController = navController, id.toString())
 }

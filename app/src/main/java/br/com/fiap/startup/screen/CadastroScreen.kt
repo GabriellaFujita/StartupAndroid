@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -45,6 +46,9 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun CadastroScreen(navController: NavController) {
 
+    val context = LocalContext.current
+    val prestadorRepository = PrestadorRepository(context)
+
     var nomeState = remember {
         mutableStateOf("")
     }
@@ -67,6 +71,10 @@ fun CadastroScreen(navController: NavController) {
 
     var emailState = remember {
         mutableStateOf("")
+    }
+
+    var contatoListState = remember {
+        mutableStateOf(prestadorRepository.listarPrestadores())
     }
 
     Column {
@@ -99,6 +107,9 @@ fun CadastroScreen(navController: NavController) {
             endereco = enderecoState.value,
             telefone = telefoneState.value,
             email = emailState.value,
+            atualizar = {
+                contatoListState.value = prestadorRepository.listarPrestadores()
+            },
             onNomeChange = {
                 nomeState.value = it
             },
@@ -118,7 +129,9 @@ fun CadastroScreen(navController: NavController) {
                 emailState.value = it
             }
         )
-        CadastroList()
+        CadastroList(contatoListState.value) {
+            contatoListState.value = prestadorRepository.listarPrestadores()
+        }
     }
 }
 
@@ -137,6 +150,7 @@ fun CadastroForm(
     onEnderecoChange: (String) -> Unit,
     onTelefoneChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
+    atualizar: () -> Unit
 ) {
     //Obter contexto
     val context = LocalContext.current
@@ -234,15 +248,15 @@ fun CadastroForm(
         Button(
             onClick = {
                 val prestador = Prestador(
-                    id = 0,
-                    nome = "Maria",
-                    categoria = "Estética",
-                    servicos = "Manicure, Pedicure",
-                    endereco = "Rua 1, 130, São Paulo",
-                    email = "Maria@email.com",
-                    telefone = "1234-5678"
+                    nome = nome,
+                    categoria = categoria,
+                    servicos = servicos,
+                    endereco = endereco,
+                    email = email,
+                    telefone = telefone
                 )
                 prestadorRepository.salvar(prestador)
+                atualizar()
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -255,22 +269,22 @@ fun CadastroForm(
 }
 
 @Composable
-fun CadastroList() {
+fun CadastroList(prestadores : List<Prestador>, atualizar: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        for (i in 0..10) {
-            ContatoCard()
+        for (prestador in prestadores) {
+            ContatoCard(prestador, atualizar)
             Spacer(modifier = Modifier.height(4.dp))
         }
     }
 }
 
 @Composable
-fun ContatoCard() {
+fun ContatoCard(prestador : Prestador, atualizar: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -280,28 +294,33 @@ fun ContatoCard() {
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val context = LocalContext.current
+            val prestadorRepository = PrestadorRepository(context)
             Column(
                 modifier = Modifier
                     .padding(8.dp)
                     .weight(2f)
             ) {
                 Text(
-                    text = "Nome do Prestador",
+                    text = prestador.nome,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Categoria",
+                    text = prestador.categoria,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Endereço",
+                    text = prestador.endereco,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
-            IconButton(onClick = { /* DELETA O PRESTADOR */ }) {
+            IconButton(onClick = {
+                prestadorRepository.excluir(prestador)
+                atualizar()
+            }) {
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = ""

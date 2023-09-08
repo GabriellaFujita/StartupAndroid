@@ -40,14 +40,21 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.startup.database.repository.PrestadorRepository
 import androidx.navigation.compose.rememberNavController
+import br.com.fiap.startup.model.Prestador
 
 
 //Busca prestador por categoria
 @Composable
 fun BuscaScreen(navController: NavController) {
 
+    val context = LocalContext.current
+    val prestadorRepository = PrestadorRepository(context)
+
     var categoria = remember {
         mutableStateOf("")
+    }
+    var contatoListState = remember {
+        mutableStateOf(prestadorRepository.listarPrestadoresPelaCategoria(categoria.value))
     }
 
     Column {
@@ -77,9 +84,11 @@ fun BuscaScreen(navController: NavController) {
             categoria = categoria.value,
             onCategoriaChange = {
                 categoria.value = it
+            }, atualizar = {
+                contatoListState.value = prestadorRepository.listarPrestadoresPelaCategoria(categoria.value)
             }
         )
-        BuscaList(navController = navController)
+        BuscaList(navController = navController, contatoListState.value)
     }
 }
 
@@ -87,7 +96,8 @@ fun BuscaScreen(navController: NavController) {
 @Composable
 fun BuscaForm(
     categoria: String,
-    onCategoriaChange: (String) -> Unit
+    onCategoriaChange: (String) -> Unit,
+    atualizar: () -> Unit
 ) {
     //Obter contexto
     val context = LocalContext.current
@@ -120,7 +130,8 @@ fun BuscaForm(
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = {
-                prestadorRepository.listarPrestadoresPelaCategoria(categoria = categoria)
+                prestadorRepository.listarPrestadoresPelaCategoria(categoria)
+                atualizar()
             },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -133,22 +144,22 @@ fun BuscaForm(
 }
 
 @Composable
-fun BuscaList(navController: NavController) {
+fun BuscaList(navController: NavController, prestadores : List<Prestador>) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        for (i in 0..10) {
-            BuscaCard(navController = navController)
+        for (prestador in prestadores) {
+            BuscaCard(navController = navController , prestador)
             Spacer(modifier = Modifier.height(4.dp))
         }
     }
 }
 
 @Composable
-fun BuscaCard(navController: NavController) {
+fun BuscaCard(navController: NavController, prestador : Prestador) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
@@ -164,22 +175,24 @@ fun BuscaCard(navController: NavController) {
                     .weight(2f)
             ) {
                 Text(
-                    text = "Nome do Prestador",
+                    text = prestador.nome,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Categoria",
+                    text = prestador.categoria,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Endereço",
+                    text = prestador.endereco,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
-            IconButton(onClick = { navController.navigate("prestador") }) {
+            IconButton(onClick = {
+                val id : String = prestador.id.toString()
+                navController.navigate("prestador/" + id) }) {
                 Icon(
                     imageVector = Icons.Default.Info,
                     contentDescription = ""
