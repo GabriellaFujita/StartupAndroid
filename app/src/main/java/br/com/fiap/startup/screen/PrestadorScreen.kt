@@ -38,7 +38,7 @@ fun PrestadorScreen(navController: NavController, id : String) {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
-                onClick = { navController.navigate("login") },g
+                onClick = { navController.navigate("login") },
                 modifier = Modifier.padding(8.dp),
                 colors = ButtonDefaults.buttonColors(Color.Black),
                 shape = CircleShape
