@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,11 +61,13 @@ fun BuscaScreen(navController: NavController) {
     }
 
     Column {
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
                 onClick = { navController.navigate("login") },
                 modifier = Modifier.padding(8.dp),
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(Color.Black),
+                shape = CircleShape
             ) {
                 Text(
                     text = "SAIR",
@@ -70,12 +75,13 @@ fun BuscaScreen(navController: NavController) {
                 )
             }
             Button(
-                onClick = { navController.navigate("cadastro") },
+                onClick = { navController.navigate("busca") },
                 modifier = Modifier.padding(8.dp),
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(Color.Black),
+                shape = CircleShape
             ) {
                 Text(
-                    text = "CADASTRO",
+                    text = "BUSCA",
                     modifier = Modifier.padding(8.dp)
                 )
             }
@@ -104,14 +110,15 @@ fun BuscaForm(
     val prestadorRepository = PrestadorRepository(context)
 
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(16.dp) ,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Busque seu Serviço",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color(
-                0xFFE91E63
+                0xFFFF4500
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -120,8 +127,12 @@ fun BuscaForm(
             onValueChange = { onCategoriaChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Categoria do Serviço")
+                Text(text = "Categoria do Serviço",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Words
@@ -133,7 +144,8 @@ fun BuscaForm(
                 prestadorRepository.listarPrestadoresPelaCategoria(categoria)
                 atualizar()
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(Color(0xFFFF4500))
         ) {
             Text(
                 text = "BUSCAR",

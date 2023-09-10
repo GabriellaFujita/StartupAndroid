@@ -1,5 +1,7 @@
 package br.com.fiap.startup.screen
 
+import android.provider.CalendarContract.Colors
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,11 +12,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +28,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.DefaultTintColor
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -48,6 +57,7 @@ fun CadastroScreen(navController: NavController) {
 
     val context = LocalContext.current
     val prestadorRepository = PrestadorRepository(context)
+
 
     var nomeState = remember {
         mutableStateOf("")
@@ -77,12 +87,15 @@ fun CadastroScreen(navController: NavController) {
         mutableStateOf(prestadorRepository.listarPrestadores())
     }
 
+
     Column {
+
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
                 onClick = { navController.navigate("login") },
                 modifier = Modifier.padding(8.dp),
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(Color.Black),
+                shape = CircleShape
             ) {
                 Text(
                     text = "SAIR",
@@ -92,7 +105,8 @@ fun CadastroScreen(navController: NavController) {
             Button(
                 onClick = { navController.navigate("busca") },
                 modifier = Modifier.padding(8.dp),
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(Color.Black),
+                shape = CircleShape
             ) {
                 Text(
                     text = "BUSCA",
@@ -100,6 +114,7 @@ fun CadastroScreen(navController: NavController) {
                 )
             }
         }
+        
         CadastroForm(
             nome = nomeState.value,
             categoria = categoriaState.value,
@@ -157,14 +172,16 @@ fun CadastroForm(
     val prestadorRepository = PrestadorRepository(context)
 
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Cadastro de prestadores",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
+
             color = Color(
-                0xFFE91E63
+                255,69,0
             )
         )
         Spacer(modifier = Modifier.height(8.dp))
@@ -173,12 +190,18 @@ fun CadastroForm(
             onValueChange = { onNomeChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Nome do prestador")
+                Text(text = "Nome do prestador",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
-                capitalization = KeyboardCapitalization.Words
+                capitalization = KeyboardCapitalization.Words,
+
             )
+
         )
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
@@ -186,8 +209,12 @@ fun CadastroForm(
             onValueChange = { onCategoriaChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Nome da categoria")
+                Text(text = "Nome da categoria",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Words
@@ -199,8 +226,12 @@ fun CadastroForm(
             onValueChange = { onServicosChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Nome dos serviços")
+                Text(text = "Nome dos serviços",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Words
@@ -212,8 +243,12 @@ fun CadastroForm(
             onValueChange = { onEnderecoChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Endereço")
+                Text(text = "Endereço",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Words
@@ -225,8 +260,12 @@ fun CadastroForm(
             onValueChange = { onTelefoneChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Telefone do prestador")
+                Text(text = "Telefone do prestador",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone
             )
@@ -237,14 +276,21 @@ fun CadastroForm(
             onValueChange = { onEmailChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Email do prestador")
+                Text(text = "Email do prestador",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray,
+            ),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Words
-            )
+            ),
+
         )
         Spacer(modifier = Modifier.height(16.dp))
+
         Button(
             onClick = {
                 val prestador = Prestador(
@@ -258,15 +304,18 @@ fun CadastroForm(
                 prestadorRepository.salvar(prestador)
                 atualizar()
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(Color(0xFFFF4500))
+
         ) {
             Text(
                 text = "CADASTRAR",
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(8.dp),
             )
         }
     }
 }
+
 
 @Composable
 fun CadastroList(prestadores : List<Prestador>, atualizar: () -> Unit) {
@@ -304,7 +353,7 @@ fun ContatoCard(prestador : Prestador, atualizar: () -> Unit) {
                 Text(
                     text = prestador.nome,
                     fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
                 Text(
                     text = prestador.categoria,
@@ -317,7 +366,8 @@ fun ContatoCard(prestador : Prestador, atualizar: () -> Unit) {
                     fontWeight = FontWeight.Bold
                 )
             }
-            IconButton(onClick = {
+            IconButton(
+                onClick = {
                 prestadorRepository.excluir(prestador)
                 atualizar()
             }) {

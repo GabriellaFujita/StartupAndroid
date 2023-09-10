@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -36,9 +38,10 @@ fun PrestadorScreen(navController: NavController, id : String) {
     Column {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(
-                onClick = { navController.navigate("login") },
+                onClick = { navController.navigate("login") },g
                 modifier = Modifier.padding(8.dp),
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(Color.Black),
+                shape = CircleShape
             ) {
                 Text(
                     text = "LOGIN",
@@ -48,7 +51,8 @@ fun PrestadorScreen(navController: NavController, id : String) {
             Button(
                 onClick = { navController.navigate("busca") },
                 modifier = Modifier.padding(8.dp),
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(Color.Black),
+                shape = CircleShape
             ) {
                 Text(
                     text = "BUSCA",
@@ -58,7 +62,8 @@ fun PrestadorScreen(navController: NavController, id : String) {
             Button(
                 onClick = { navController.navigate("cadastro") },
                 modifier = Modifier.padding(8.dp),
-                shape = RectangleShape
+                colors = ButtonDefaults.buttonColors(Color(0xFFFF4500)),
+                shape = CircleShape
             ) {
                 Text(
                     text = "CADASTRO",

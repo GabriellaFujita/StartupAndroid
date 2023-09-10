@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,7 +53,8 @@ fun LoginScreen(navController: NavController) {
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Transparent)) {
+        .background(Color.Transparent),
+        horizontalAlignment = Alignment.CenterHorizontally) {
         ImageInBox()
         LoginForm(
             login = loginState.value,
@@ -64,7 +67,10 @@ fun LoginScreen(navController: NavController) {
             },
             navController = navController
         )
-        Button(onClick = { navController.navigate("busca") }) {
+        Button(
+            onClick = { navController.navigate("busca") },
+            colors = ButtonDefaults.buttonColors(Color.Black)
+        ) {
             Text("Ir para Busca")
         }
     }
@@ -112,21 +118,31 @@ fun LoginForm(
             onValueChange = { onLoginChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Login")
+                Text(text = "Login",
+                    color = Color.Black)
             },
-            keyboardOptions = KeyboardOptions(
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
+                keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 capitalization = KeyboardCapitalization.Words
             )
         )
+
+
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedTextField(
             value = senha,
             onValueChange = { onSenhaChange(it) },
             modifier = Modifier.fillMaxWidth(),
             label = {
-                Text(text = "Senha")
+                Text(text = "Senha",
+                    color = Color.Black)
             },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Black,
+                unfocusedBorderColor = Color.LightGray),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password
             ),
@@ -144,7 +160,8 @@ fun LoginForm(
 
                 }
           },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(Color(0xFFFF4500))
         ) {
             Text(
                 text = "ENTRAR",
