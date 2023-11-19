@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StartUp</string>
+    <string name="title_activity_form_login">FormLogin</string>
 </resources>
